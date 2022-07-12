@@ -22,6 +22,8 @@ column = 0
 test = 0
 raw_domain = 1
 raw_site = 1
+sum_category = 0
+raw_category = 1
 
 worksheet.write(0, 0, "domain")
 worksheet.write(0, 1, "site")
@@ -49,7 +51,7 @@ for line in my_file:
 
     domain = do_stuff_with_two_lines(previous_line, current_line, 0)
     site = do_stuff_with_two_lines(previous_line, current_line, 1)
-    print(test)
+    category = do_stuff_with_two_lines(previous_line, current_line, 2)
 
     for i in domain:
         if i != 0:
@@ -65,6 +67,18 @@ for line in my_file:
             else:
                 worksheet.merge_range(raw_site, 1, raw, 1, i[1], merge_format)
             raw_site = raw + 1
+    for i in category:
+        if i != 0:
+            if raw_category == 1:
+                worksheet.merge_range(raw_category, 3, raw, 3, first_line_url, merge_format)
+                worksheet.merge_range(raw_category, 2, raw, 2, sum_category, merge_format)
+            else:
+                worksheet.merge_range(raw_category, 3, raw, 3, i[2], merge_format)
+                worksheet.merge_range(raw_category, 2, raw, 2, sum_category, merge_format)
+            raw_category = raw + 1
+        else:
+            sum_category += 1
+            
 
     raw += 1
 
