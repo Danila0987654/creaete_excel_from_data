@@ -1,20 +1,27 @@
 import xlsxwriter
 
 
-def do_stuff_with_two_lines(previous_line, current_line, field):
+def do_stuff_with_two_lines(previous_line, current_line, field, double_check):
     something = []
 
     previous_list = previous_line.split(",")
     current_list = current_line.split(",")
-    if previous_list[field] != current_list[field]:
-        something.append(current_list)
+    if double_check == "false":
+        if previous_list[field] != current_list[field]:
+            something.append(current_list)
+        else:
+            something.append(0)
     else:
-        something.append(0)
+        if previous_list[field] != current_list[field] or \
+                previous_list[1] != current_list[1] or previous_list[0] != current_list[0]:
+            something.append(current_list)
+        else:
+            something.append(0)
 
     return something
 
 
-my_file = open('text.txt', 'r')
+my_file = open('text.txt', 'r', encoding="utf-8")
 workbook = xlsxwriter.Workbook('hello.xlsx')
 worksheet = workbook.add_worksheet()
 raw = 1
@@ -49,9 +56,9 @@ for line in my_file:
     previous_line = current_line
     current_line = line
 
-    domain = do_stuff_with_two_lines(previous_line, current_line, 0)
-    site = do_stuff_with_two_lines(previous_line, current_line, 1)
-    category = do_stuff_with_two_lines(previous_line, current_line, 2)
+    domain = do_stuff_with_two_lines(previous_line, current_line, 0, "false")
+    site = do_stuff_with_two_lines(previous_line, current_line, 1, "false")
+    category = do_stuff_with_two_lines(previous_line, current_line, 2, "true")
 
     for i in domain:
         if i != 0:
@@ -76,9 +83,9 @@ for line in my_file:
                 worksheet.merge_range(raw_category, 3, raw, 3, i[2], merge_format)
                 worksheet.merge_range(raw_category, 2, raw, 2, sum_category, merge_format)
             raw_category = raw + 1
+            sum_category = 1
         else:
             sum_category += 1
-            
 
     raw += 1
 
