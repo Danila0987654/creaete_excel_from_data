@@ -1,12 +1,12 @@
 import xlsxwriter
 
 
-def do_stuff_with_two_lines(previous_line, current_line):
+def do_stuff_with_two_lines(previous_line, current_line, field):
     something = []
 
     previous_list = previous_line.split(",")
     current_list = current_line.split(",")
-    if previous_list[0] != current_list[0]:
+    if previous_list[field] != current_list[field]:
         something.append(current_list)
     else:
         something.append(0)
@@ -20,7 +20,8 @@ worksheet = workbook.add_worksheet()
 raw = 1
 column = 0
 test = 0
-raw_prev = 1
+raw_domain = 1
+raw_site = 1
 
 worksheet.write(0, 0, "domain")
 worksheet.write(0, 1, "site")
@@ -31,8 +32,7 @@ merge_format = workbook.add_format({
     'bold': 1,
     'border': 1,
     'align': 'center',
-    'valign': 'vcenter',
-    'fg_color': 'yellow'})
+    'valign': 'vcenter'})
 
 if my_file:
     current_line = my_file.readline()
@@ -47,18 +47,24 @@ for line in my_file:
     previous_line = current_line
     current_line = line
 
-    get = do_stuff_with_two_lines(previous_line, current_line)
+    domain = do_stuff_with_two_lines(previous_line, current_line, 0)
+    site = do_stuff_with_two_lines(previous_line, current_line, 1)
+    print(test)
 
-    for i in get:
+    for i in domain:
         if i != 0:
-            print(raw_prev)
-            print(raw)
-            print(i[0])
-            if raw_prev == 1:
-                worksheet.merge_range(raw_prev, 0, raw, 0, first_line_domain, merge_format)
+            if raw_domain == 1:
+                worksheet.merge_range(raw_domain, 0, raw, 0, first_line_domain, merge_format)
             else:
-                worksheet.merge_range(raw_prev, 0, raw, 0, i[0], merge_format)
-            raw_prev = raw + 1
+                worksheet.merge_range(raw_domain, 0, raw, 0, i[0], merge_format)
+            raw_domain = raw + 1
+    for i in site:
+        if i != 0:
+            if raw_site == 1:
+                worksheet.merge_range(raw_site, 1, raw, 1, first_line_url, merge_format)
+            else:
+                worksheet.merge_range(raw_site, 1, raw, 1, i[1], merge_format)
+            raw_site = raw + 1
 
     raw += 1
 
