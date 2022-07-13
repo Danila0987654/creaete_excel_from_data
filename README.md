@@ -4,7 +4,7 @@
 Now that's create excel file from data.csv with 3 fields
 
 
-## Acknowledgements
+## Related
 
  - [My origin repository](https://github.com/Danila0987654/creaete_excel_from_data)
  - [Repository weborama](https://git.ias.su/dsokolov/create_excel_from_data)
