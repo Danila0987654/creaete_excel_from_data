@@ -57,7 +57,7 @@ for line in my_file:
     current_line = line
 
     domain = do_stuff_with_two_lines(previous_line, current_line, 0, "false")
-    site = do_stuff_with_two_lines(previous_line, current_line, 1, "false")
+    site = do_stuff_with_two_lines(previous_line, current_line, 1, "true")
     category = do_stuff_with_two_lines(previous_line, current_line, 2, "true")
 
     for i in domain:
