@@ -1,6 +1,7 @@
 .idea
 *.xlsx
 *.csv
+*.zip
 
 
 ### VisualStudioCode template
